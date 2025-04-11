@@ -1,0 +1,100 @@
+@startuml Notes Sharing Platform - Activity Diagram
+
+' Define swimlanes
+|User|
+|System|
+|Database|
+|File System|
+
+' Start point
+start
+
+' Note Upload Process
+|User|
+:Click "Upload Note";
+:Fill note details and select file;
+:Submit form;
+
+|System|
+:Validate user authentication;
+if (User authenticated?) then (yes)
+  :Validate input data;
+  if (Input valid?) then (yes)
+    :Generate unique filename;
+    
+    |File System|
+    :Save file to server;
+    
+    |Database|
+    :Store note metadata;
+    :Link note to user;
+    
+    |System|
+    :Display success message;
+    
+    |User|
+    :View uploaded note;
+  else (no)
+    |System|
+    :Display validation errors;
+    
+    |User|
+    :Correct input and resubmit;
+  endif
+else (no)
+  |System|
+  :Redirect to login page;
+  
+  |User|
+  :Login to system;
+  
+  |System|
+  :Redirect back to upload page;
+endif
+
+' Note Download Process
+|User|
+:Browse notes;
+:Select note to view;
+
+|System|
+:Retrieve note details;
+
+|Database|
+:Increment view count;
+:Return note data;
+
+|System|
+:Display note details;
+
+|User|
+:Click "Download Note";
+
+|System|
+:Validate user authentication;
+if (User authenticated?) then (yes)
+  |Database|
+  :Record download;
+  
+  |File System|
+  :Retrieve file;
+  
+  |System|
+  :Set appropriate headers;
+  :Stream file to browser;
+  
+  |User|
+  :Receive file;
+else (no)
+  |System|
+  :Display login prompt;
+  
+  |User|
+  :Login to system;
+  goto Download
+endif
+
+' End point
+stop
+
+@enduml

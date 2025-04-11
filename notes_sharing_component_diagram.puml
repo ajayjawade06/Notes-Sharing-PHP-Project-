@@ -1,0 +1,81 @@
+@startuml Notes Sharing Platform - Component Diagram
+
+' Define components
+package "Client Side" {
+  [Web Browser] as Browser
+}
+
+package "Server Side" {
+  package "Presentation Layer" {
+    [User Interface] as UI
+  }
+  
+  package "Application Layer" {
+    [Authentication Module] as Auth
+    [Note Management] as NoteManager
+    [User Management] as UserManager
+    [Admin Module] as AdminModule
+    [Statistics Module] as StatsModule
+  }
+  
+  package "Data Access Layer" {
+    [Database Access] as DBAccess
+    [File System Access] as FSAccess
+  }
+  
+  package "Storage" {
+    database "MySQL Database" as DB {
+      [Users Table]
+      [Notes Table]
+      [Downloads Table]
+    }
+    
+    folder "File Repository" as FileRepo {
+      [Uploaded Files]
+    }
+  }
+}
+
+' Define interfaces
+interface "HTTP/HTTPS" as HTTP
+interface "SQL Queries" as SQL
+interface "File I/O" as FileIO
+
+' Define relationships
+Browser -- HTTP
+HTTP -- UI
+
+UI --> Auth
+UI --> NoteManager
+UI --> UserManager
+UI --> AdminModule
+UI --> StatsModule
+
+Auth --> DBAccess
+NoteManager --> DBAccess
+NoteManager --> FSAccess
+UserManager --> DBAccess
+AdminModule --> DBAccess
+AdminModule --> FSAccess
+StatsModule --> DBAccess
+
+DBAccess -- SQL
+SQL -- DB
+
+FSAccess -- FileIO
+FileIO -- FileRepo
+
+' Add notes
+note "User authentication and session management" as N1
+note "Handles note upload, viewing, and download" as N2
+note "Manages user profiles and permissions" as N3
+note "Admin-specific functionality" as N4
+note "Tracks views and downloads" as N5
+
+Auth .. N1
+NoteManager .. N2
+UserManager .. N3
+AdminModule .. N4
+StatsModule .. N5
+
+@enduml

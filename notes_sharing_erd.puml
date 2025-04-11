@@ -1,0 +1,47 @@
+@startuml Notes Sharing Platform - Entity Relationship Diagram
+
+' Define entities
+entity "Users" as users {
+  * id : int <<PK>>
+  --
+  * name : varchar(100)
+  * email : varchar(100) <<unique>>
+  * password : varchar(255)
+  * role : enum ['user', 'admin']
+  * created_at : timestamp
+  * updated_at : timestamp
+}
+
+entity "Notes" as notes {
+  * id : int <<PK>>
+  --
+  * user_id : int <<FK>>
+  * title : varchar(255)
+  description : text
+  * file_name : varchar(255)
+  * file_type : varchar(50)
+  * file_path : varchar(255)
+  views : int
+  * created_at : timestamp
+  * updated_at : timestamp
+}
+
+entity "Downloads" as downloads {
+  * id : int <<PK>>
+  --
+  * user_id : int <<FK>>
+  * note_id : int <<FK>>
+  * downloaded_at : timestamp
+}
+
+' Define relationships
+users ||--o{ notes : "uploads"
+users ||--o{ downloads : "performs"
+notes ||--o{ downloads : "has"
+
+' Add notes
+note bottom of users : "Admin is a user with role='admin'"
+note bottom of downloads : "Tracks which users downloaded which notes"
+note bottom of notes : "View count increments each time a note is viewed"
+
+@enduml

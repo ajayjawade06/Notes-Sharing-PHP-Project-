@@ -1,0 +1,72 @@
+@startuml Notes Sharing Platform - Deployment Diagram
+
+' Define nodes
+node "Client" {
+  [Web Browser]
+}
+
+node "Web Server" {
+  [Apache/Nginx]
+  [PHP Runtime]
+  [Notes Sharing Application]
+}
+
+node "Database Server" {
+  [MySQL DBMS]
+  database "Notes Sharing DB" {
+    [Users Table]
+    [Notes Table]
+    [Downloads Table]
+  }
+}
+
+node "File Storage Server" {
+  folder "Uploaded Files" {
+    [PDF Files]
+    [Word Documents]
+    [PowerPoint Presentations]
+    [Text Files]
+    [Archive Files]
+  }
+}
+
+' Define connections
+[Web Browser] ..> [Apache/Nginx] : HTTPS
+[Apache/Nginx] --> [PHP Runtime]
+[PHP Runtime] --> [Notes Sharing Application]
+[Notes Sharing Application] ..> [MySQL DBMS] : TCP/IP
+[MySQL DBMS] --> [Notes Sharing DB]
+[Notes Sharing Application] ..> [Uploaded Files] : File I/O
+
+' Add notes
+note right of [Web Browser] : "User interface accessed via HTTPS"
+note right of [Apache/Nginx] : "Handles HTTP requests and serves static content"
+note right of [PHP Runtime] : "Executes PHP scripts"
+note right of [Notes Sharing Application] : "Core application logic"
+note right of [MySQL DBMS] : "Manages database operations"
+note right of [Uploaded Files] : "Stores uploaded note files"
+
+' Add deployment specifications
+node "Production Environment" {
+  [Load Balancer]
+  node "Web Server Cluster" {
+    [Web Server Instance 1]
+    [Web Server Instance 2]
+    [Web Server Instance n]
+  }
+  [Database Cluster]
+  [Storage Cluster]
+}
+
+[Load Balancer] ..> [Web Server Cluster] : "Distributes traffic"
+[Web Server Cluster] ..> [Database Cluster] : "Database connections"
+[Web Server Cluster] ..> [Storage Cluster] : "File operations"
+
+note bottom of [Production Environment]
+  For high availability and scalability:
+  - Multiple web server instances behind a load balancer
+  - Database cluster with replication
+  - Distributed file storage
+end note
+
+@enduml

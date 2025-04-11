@@ -1,0 +1,511 @@
+Notes Sharing Platform Documentation
+
+INTRODUCTION
+Introduction of project
+The Notes Sharing Platform is a web-based application designed to facilitate the sharing of educational notes and resources among users. It provides a centralized platform where users can upload, view, and download various types of documents, including PDF, DOC, DOCX, PPT, PPTX, TXT, ZIP, and RAR files. The platform includes user authentication, note management, view tracking, and download statistics, as well as an administrative interface for system management and reporting.
+
+Existing System and Need for System
+Traditional methods of sharing educational notes often involve physical exchanges, email attachments, or disparate online platforms, leading to inefficiencies, limited accessibility, and lack of organization. There is a need for a centralized, user-friendly platform that allows for easy sharing and discovery of educational resources. The Notes Sharing Platform addresses these needs by providing a dedicated system with robust features for uploading, categorizing, searching, and downloading notes, along with user authentication and tracking mechanisms.
+
+Scope of Work
+The Notes Sharing Platform encompasses the following scope:
+1. User registration and authentication system
+2. Note upload functionality with support for multiple file formats
+3. Note viewing and downloading capabilities
+4. View and download tracking
+5. User profile management
+6. Administrative dashboard for system oversight
+7. Reporting and analytics features
+8. Responsive user interface for various devices
+
+Operating Environment - Hardware and Software
+Hardware Requirements:
+- Server: Any modern server capable of running PHP and MySQL
+- Client: Any device with a web browser (desktop, laptop, tablet, smartphone)
+- Storage: Sufficient disk space for storing uploaded files
+- Network: Internet connectivity for accessing the platform
+
+Software Requirements:
+- Server-side: PHP 7.0+, MySQL 5.7+, Apache/Nginx web server
+- Client-side: Modern web browsers (Chrome, Firefox, Safari, Edge)
+- Development tools: XAMPP for local development environment
+- Additional libraries: Bootstrap for responsive design, Font Awesome for icons
+
+Detail Description of Technology Used
+1. Backend Technologies:
+   - PHP: Server-side scripting language for application logic
+   - MySQL: Relational database management system for data storage
+   - Apache: Web server software for hosting the application
+
+2. Frontend Technologies:
+   - HTML5: Markup language for structuring web pages
+   - CSS3: Styling language for designing the user interface
+   - JavaScript: Client-side scripting for interactive features
+   - Tailwind CSS: Utility-first CSS framework for responsive design
+   - Font Awesome: Icon library for visual elements
+
+3. Development Environment:
+   - XAMPP: Cross-platform web server solution stack package
+   - Visual Studio Code: Code editor for development
+   - Git: Version control system for code management
+
+4. Security Measures:
+   - Password hashing using PHP's password_hash() function
+   - Input sanitization to prevent SQL injection
+   - Session management for user authentication
+   - Role-based access control for administrative functions
+
+PROPOSED SYSTEMS
+Objectives of System
+1. Provide a user-friendly platform for sharing educational notes and resources
+2. Enable efficient uploading, categorizing, and searching of notes
+3. Implement secure user authentication and authorization mechanisms
+4. Track note views and downloads for analytics purposes
+5. Offer administrative tools for system management and reporting
+6. Ensure responsive design for accessibility across various devices
+7. Support multiple file formats for diverse educational resources
+8. Facilitate community building through shared knowledge resources
+
+Proposed System
+The Notes Sharing Platform is designed as a web-based application with the following key components:
+
+1. User Management System:
+   - User registration with email verification
+   - Login and authentication
+   - Password recovery mechanism
+   - User profile management
+   - Role-based access control (user/admin)
+
+2. Note Management System:
+   - Note upload with file type validation
+   - Note viewing with view counter
+   - Note download with tracking
+   - Note editing and deletion (for owners)
+   - File type categorization and filtering
+
+3. Administrative System:
+   - Dashboard with statistics and quick access links
+   - User management (view, promote/demote, delete)
+   - Note management (view, delete)
+   - Report generation (notes, users, downloads, views)
+   - CSV export for reports
+
+4. Analytics System:
+   - View tracking for notes
+   - Download tracking for notes
+   - User activity monitoring
+   - Statistical reporting and visualization
+
+User Requirements
+1. General Users:
+   - Browse and search for notes without registration
+   - Register an account with email and password
+   - Login to access additional features
+   - Upload notes in various formats
+   - View note details and statistics
+   - Download notes (requires login)
+   - Edit or delete own uploaded notes
+   - Update personal profile information
+   - Recover forgotten password
+
+2. Administrative Users:
+   - Access administrative dashboard
+   - View system statistics and analytics
+   - Manage user accounts (view, promote/demote, delete)
+   - Manage notes (view, delete)
+   - Generate and export reports
+   - Monitor system activity and performance
+
+ANALYSIS AND DESIGN
+Entity Relationship Diagram (ERD)
+The ERD for the Notes Sharing Platform consists of three main entities:
+
+1. Users Entity:
+   - id (Primary Key)
+   - name
+   - email
+   - password
+   - role
+   - created_at
+   - updated_at
+
+2. Notes Entity:
+   - id (Primary Key)
+   - user_id (Foreign Key referencing Users.id)
+   - title
+   - description
+   - file_name
+   - file_type
+   - file_path
+   - views
+   - created_at
+   - updated_at
+
+3. Downloads Entity:
+   - id (Primary Key)
+   - user_id (Foreign Key referencing Users.id)
+   - note_id (Foreign Key referencing Notes.id)
+   - downloaded_at
+
+Relationships:
+- One User can upload many Notes (One-to-Many)
+- One User can download many Notes (One-to-Many)
+- One Note can be downloaded by many Users (One-to-Many)
+- The Downloads entity serves as a junction table for tracking which users have downloaded which notes
+
+Data Flow Diagram (DFD)
+Level 0 DFD (Context Diagram):
+- External Entities: User, Administrator
+- Central Process: Notes Sharing Platform
+- Data Flows:
+  - User → Platform: Registration data, Login credentials, Note uploads, Download requests
+  - Platform → User: Authentication response, Note listings, Note details, Downloaded files
+  - Administrator → Platform: Admin credentials, Management actions, Report requests
+  - Platform → Administrator: Dashboard data, User listings, Note listings, Reports
+
+Level 1 DFD:
+1. User Management Process:
+   - Data Flows: Registration data, Login credentials, Profile updates
+   - Data Stores: Users database
+
+2. Note Management Process:
+   - Data Flows: Note uploads, Note edits, Note deletions
+   - Data Stores: Notes database, File storage
+
+3. Note Viewing Process:
+   - Data Flows: View requests, Note details
+   - Data Stores: Notes database, View counters
+
+4. Download Process:
+   - Data Flows: Download requests, File downloads
+   - Data Stores: Notes database, Downloads database, File storage
+
+5. Administrative Process:
+   - Data Flows: Management actions, Report requests
+   - Data Stores: Users database, Notes database, Downloads database
+
+Object Diagram
+The object diagram represents instances of the classes in the system:
+
+1. User Object:
+   - id: 1
+   - name: "John Doe"
+   - email: "john@example.com"
+   - password: "[hashed_password]"
+   - role: "user"
+   - created_at: "2023-01-15 10:30:00"
+   - updated_at: "2023-01-15 10:30:00"
+
+2. Note Object:
+   - id: 1
+   - user_id: 1
+   - title: "Introduction to Computer Science"
+   - description: "Comprehensive notes on CS fundamentals"
+   - file_name: "cs_intro.pdf"
+   - file_type: "pdf"
+   - file_path: "uploads/unique_filename.pdf"
+   - views: 25
+   - created_at: "2023-01-16 14:20:00"
+   - updated_at: "2023-01-16 14:20:00"
+
+3. Download Object:
+   - id: 1
+   - user_id: 2
+   - note_id: 1
+   - downloaded_at: "2023-01-17 09:45:00"
+
+Class Diagram
+The class diagram shows the structure of the system's classes:
+
+1. User Class:
+   - Attributes:
+     - id: int
+     - name: string
+     - email: string
+     - password: string
+     - role: enum('user', 'admin')
+     - created_at: timestamp
+     - updated_at: timestamp
+   - Methods:
+     - register()
+     - login()
+     - updateProfile()
+     - resetPassword()
+
+2. Note Class:
+   - Attributes:
+     - id: int
+     - user_id: int
+     - title: string
+     - description: string
+     - file_name: string
+     - file_type: string
+     - file_path: string
+     - views: int
+     - created_at: timestamp
+     - updated_at: timestamp
+   - Methods:
+     - upload()
+     - view()
+     - edit()
+     - delete()
+     - incrementViews()
+
+3. Download Class:
+   - Attributes:
+     - id: int
+     - user_id: int
+     - note_id: int
+     - downloaded_at: timestamp
+   - Methods:
+     - recordDownload()
+     - hasDownloaded()
+
+4. Admin Class (extends User):
+   - Methods:
+     - viewDashboard()
+     - manageUsers()
+     - manageNotes()
+     - generateReports()
+
+Use Case Diagrams
+1. User Authentication Use Cases:
+   - Actors: User, System
+   - Use Cases:
+     - Register
+     - Login
+     - Logout
+     - Reset Password
+     - Update Profile
+
+2. Note Management Use Cases:
+   - Actors: User, System
+   - Use Cases:
+     - Upload Note
+     - View Note
+     - Download Note
+     - Edit Note
+     - Delete Note
+     - Search Notes
+     - Filter Notes by Type
+
+3. Admin Management Use Cases:
+   - Actors: Admin, System
+   - Use Cases:
+     - View Dashboard
+     - Manage Users
+     - Manage Notes
+     - Generate Reports
+     - Export Reports
+
+Activity Diagram
+1. User Registration Activity:
+   - Start → Fill Registration Form → Validate Input → Create User Account → Send Confirmation → End
+
+2. Note Upload Activity:
+   - Start → Login → Access Upload Form → Fill Note Details → Select File → Validate File → Upload File → Save Note Details → End
+
+3. Note Download Activity:
+   - Start → Browse Notes → Select Note → View Note Details → Click Download → Check Authentication → If Not Logged In: Redirect to Login → If Logged In: Record Download → Serve File → End
+
+4. Report Generation Activity:
+   - Start → Login as Admin → Access Reports Page → Select Report Type → Set Date Range → Generate Report → View Report → Optional: Export to CSV → End
+
+Collaboration Diagram
+1. User Authentication Collaboration:
+   - User → LoginForm: submits credentials
+   - LoginForm → AuthenticationController: validates credentials
+   - AuthenticationController → UserModel: retrieves user data
+   - AuthenticationController → SessionManager: creates session
+   - SessionManager → User: returns authentication status
+
+2. Note Upload Collaboration:
+   - User → UploadForm: submits note details and file
+   - UploadForm → NoteController: validates input
+   - NoteController → FileManager: handles file upload
+   - NoteController → NoteModel: saves note details
+   - NoteModel → User: associates note with user
+   - NoteController → User: returns upload status
+
+3. Note Download Collaboration:
+   - User → NoteView: requests download
+   - NoteView → DownloadController: processes request
+   - DownloadController → AuthenticationManager: checks authentication
+   - DownloadController → DownloadModel: records download
+   - DownloadController → FileManager: retrieves file
+   - FileManager → User: serves file
+
+Deployment Diagram
+1. Client Tier:
+   - Web Browser (Chrome, Firefox, Safari, Edge)
+
+2. Web Server Tier:
+   - Apache HTTP Server
+   - PHP Runtime Environment
+
+3. Database Tier:
+   - MySQL Database Server
+
+4. File Storage Tier:
+   - Local File System (for uploaded files)
+
+Connections:
+- Client Tier ↔ Web Server Tier: HTTP/HTTPS
+- Web Server Tier ↔ Database Tier: MySQL Protocol
+- Web Server Tier ↔ File Storage Tier: File System Access
+
+Component Diagram
+1. User Interface Components:
+   - Registration Component
+   - Login Component
+   - Note Listing Component
+   - Note Detail Component
+   - Upload Component
+   - Admin Dashboard Component
+   - Report Generation Component
+
+2. Business Logic Components:
+   - Authentication Controller
+   - User Controller
+   - Note Controller
+   - Download Controller
+   - Admin Controller
+   - Report Controller
+
+3. Data Access Components:
+   - User Data Access
+   - Note Data Access
+   - Download Data Access
+   - File Management
+
+4. External Components:
+   - Email Service (for password recovery)
+   - CSV Export Service (for reports)
+
+Table Design
+1. users Table:
+   - id: INT(11) AUTO_INCREMENT PRIMARY KEY
+   - name: VARCHAR(100) NOT NULL
+   - email: VARCHAR(100) NOT NULL UNIQUE
+   - password: VARCHAR(255) NOT NULL
+   - role: ENUM('user', 'admin') DEFAULT 'user'
+   - created_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   - updated_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+2. notes Table:
+   - id: INT(11) AUTO_INCREMENT PRIMARY KEY
+   - user_id: INT(11) NOT NULL
+   - title: VARCHAR(255) NOT NULL
+   - description: TEXT
+   - file_name: VARCHAR(255) NOT NULL
+   - file_type: VARCHAR(50) NOT NULL
+   - file_path: VARCHAR(255) NOT NULL
+   - views: INT(11) DEFAULT 0
+   - created_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   - updated_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+   - FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+
+3. downloads Table:
+   - id: INT(11) AUTO_INCREMENT PRIMARY KEY
+   - user_id: INT(11) NOT NULL
+   - note_id: INT(11) NOT NULL
+   - downloaded_at: TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   - FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+   - FOREIGN KEY (note_id) REFERENCES notes(id) ON DELETE CASCADE
+
+Data Dictionary
+1. users Table:
+   - id: Unique identifier for each user
+   - name: User's full name
+   - email: User's email address (used for login)
+   - password: Hashed password for authentication
+   - role: User role (user or admin)
+   - created_at: Timestamp when the user account was created
+   - updated_at: Timestamp when the user account was last updated
+
+2. notes Table:
+   - id: Unique identifier for each note
+   - user_id: Foreign key referencing the user who uploaded the note
+   - title: Title of the note
+   - description: Detailed description of the note
+   - file_name: Original name of the uploaded file
+   - file_type: Extension of the file (pdf, doc, docx, etc.)
+   - file_path: Path to the stored file on the server
+   - views: Counter for the number of times the note has been viewed
+   - created_at: Timestamp when the note was uploaded
+   - updated_at: Timestamp when the note was last updated
+
+3. downloads Table:
+   - id: Unique identifier for each download record
+   - user_id: Foreign key referencing the user who downloaded the note
+   - note_id: Foreign key referencing the note that was downloaded
+   - downloaded_at: Timestamp when the download occurred
+
+Drawbacks and Limitations
+1. Security Limitations:
+   - Basic authentication system without multi-factor authentication
+   - Limited file validation beyond file type checking
+   - No encryption for stored files
+
+2. Scalability Issues:
+   - Local file storage may not scale well for large numbers of files
+   - No distributed architecture for handling high traffic
+   - Limited database optimization for large datasets
+
+3. Feature Limitations:
+   - No real-time collaboration features
+   - Limited search capabilities (no full-text search)
+   - No version control for updated notes
+   - No rating or commenting system for notes
+   - Limited categorization and tagging system
+
+4. Technical Limitations:
+   - No API for third-party integrations
+   - Limited mobile optimization
+   - No offline access capabilities
+   - Email functionality is simulated rather than implemented
+
+Proposed Enhancements
+1. Security Enhancements:
+   - Implement multi-factor authentication
+   - Add file content scanning for malware
+   - Implement file encryption for sensitive documents
+   - Enhance password policies and account security
+
+2. Scalability Improvements:
+   - Implement cloud storage integration (AWS S3, Google Cloud Storage)
+   - Add caching mechanisms for frequently accessed notes
+   - Optimize database queries and indexing
+   - Implement load balancing for high traffic
+
+3. Feature Additions:
+   - Add note rating and commenting system
+   - Implement advanced search with full-text capabilities
+   - Add version control for note updates
+   - Implement comprehensive categorization and tagging system
+   - Add social sharing features
+   - Implement collaborative editing features
+
+4. Technical Improvements:
+   - Develop RESTful API for third-party integrations
+   - Create native mobile applications
+   - Implement progressive web app features for offline access
+   - Integrate with learning management systems
+   - Add analytics dashboard for users to track their content
+
+Conclusion
+The Notes Sharing Platform provides a comprehensive solution for sharing educational resources in a centralized, user-friendly environment. It addresses the limitations of traditional note-sharing methods by offering a secure, organized, and accessible platform for uploading, discovering, and downloading educational content.
+
+The system's architecture is designed with modularity and extensibility in mind, allowing for future enhancements and feature additions. While there are some limitations in terms of security, scalability, and advanced features, the platform provides a solid foundation that can be expanded upon to meet evolving user needs.
+
+By facilitating the sharing of knowledge and resources, the Notes Sharing Platform contributes to a collaborative learning environment where users can benefit from shared expertise and educational materials. The tracking and analytics features provide valuable insights into content popularity and user engagement, which can inform future development and content creation strategies.
+
+Bibliography
+1. PHP Documentation: https://www.php.net/docs.php
+2. MySQL Documentation: https://dev.mysql.com/doc/
+3. Tailwind CSS Documentation: https://tailwindcss.com/docs
+4. Font Awesome Documentation: https://fontawesome.com/docs
+5. Web Application Security Best Practices: OWASP Top Ten Project
+6. Database Design Principles: Codd's 12 Rules for Relational Database Design
+7. User Experience Design: Nielsen Norman Group Research
+8. Software Architecture Patterns: Martin Fowler's Patterns of Enterprise Application Architecture

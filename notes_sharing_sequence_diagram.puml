@@ -1,0 +1,60 @@
+@startuml Notes Sharing Platform - Sequence Diagram
+
+' Define participants
+actor "User" as User
+participant "Web Interface" as UI
+participant "Authentication System" as Auth
+participant "Note Manager" as NoteManager
+database "Database" as DB
+participant "File System" as FS
+
+' Note Upload Sequence
+group Note Upload Process
+    User -> UI: Click "Upload Note"
+    UI -> Auth: Check authentication
+    Auth -> DB: Verify user session
+    DB --> Auth: Return user status
+    Auth --> UI: Authentication confirmed
+    UI --> User: Display upload form
+    
+    User -> UI: Fill form and submit
+    UI -> NoteManager: Process upload request
+    NoteManager -> NoteManager: Validate input
+    NoteManager -> FS: Save file to server
+    FS --> NoteManager: File saved successfully
+    NoteManager -> DB: Store note metadata
+    DB --> NoteManager: Note record created
+    NoteManager --> UI: Upload successful
+    UI --> User: Display success message
+end
+
+' Note Viewing Sequence
+group Note Viewing Process
+    User -> UI: Click on note
+    UI -> NoteManager: Request note details
+    NoteManager -> DB: Query note by ID
+    DB --> NoteManager: Return note data
+    NoteManager -> DB: Increment view count
+    DB --> NoteManager: View count updated
+    NoteManager --> UI: Return note details
+    UI --> User: Display note details page
+end
+
+' Note Download Sequence
+group Note Download Process
+    User -> UI: Click "Download Note"
+    UI -> Auth: Check authentication
+    Auth -> DB: Verify user session
+    DB --> Auth: Return user status
+    Auth --> UI: Authentication confirmed
+    
+    UI -> NoteManager: Process download request
+    NoteManager -> DB: Record download
+    DB --> NoteManager: Download recorded
+    NoteManager -> FS: Retrieve file
+    FS --> NoteManager: Return file content
+    NoteManager --> UI: Stream file to browser
+    UI --> User: File download starts
+end
+
+@enduml

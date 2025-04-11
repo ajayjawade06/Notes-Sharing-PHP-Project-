@@ -1,0 +1,58 @@
+@startuml Notes Sharing Platform - Class Diagram
+
+' Class definitions
+class User {
+  +id: int
+  +name: string
+  +email: string
+  +password: string
+  +role: enum [user, admin]
+  +created_at: timestamp
+  +updated_at: timestamp
+  +login()
+  +register()
+  +logout()
+  +uploadNote()
+  +viewNotes()
+  +downloadNote()
+  +manageProfile()
+}
+
+class Note {
+  +id: int
+  +user_id: int
+  +title: string
+  +description: text
+  +file_name: string
+  +file_type: string
+  +file_path: string
+  +views: int
+  +created_at: timestamp
+  +updated_at: timestamp
+  +incrementViews()
+  +getDownloadCount()
+}
+
+class Download {
+  +id: int
+  +user_id: int
+  +note_id: int
+  +downloaded_at: timestamp
+}
+
+class Admin {
+  +generateReports()
+  +manageUsers()
+  +manageNotes()
+}
+
+' Relationships
+User "1" -- "0..*" Note : uploads >
+User "1" -- "0..*" Download : performs >
+Note "1" -- "0..*" Download : has >
+Admin --|> User : extends
+
+note "Admin is a specialized User with role='admin'" as N1
+note "Download tracks which users downloaded which notes" as N2
+
+@enduml

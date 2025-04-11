@@ -1,0 +1,62 @@
+@startuml Notes Sharing Platform - Use Case Diagram
+
+' Define actors
+:User: as User
+:Admin: as Admin
+:Guest: as Guest
+
+' Define system boundary
+rectangle "Notes Sharing Platform" {
+  ' Guest use cases
+  usecase "View Notes List" as UC1
+  usecase "View Note Details" as UC2
+  usecase "Register Account" as UC3
+  usecase "Login" as UC4
+  
+  ' User use cases
+  usecase "Upload Note" as UC5
+  usecase "Download Note" as UC6
+  usecase "Manage Own Notes" as UC7
+  usecase "Edit Note" as UC8
+  usecase "Delete Note" as UC9
+  usecase "View Profile" as UC10
+  usecase "Edit Profile" as UC11
+  usecase "Logout" as UC12
+  
+  ' Admin use cases
+  usecase "Manage All Notes" as UC13
+  usecase "Manage Users" as UC14
+  usecase "Generate Reports" as UC15
+  usecase "View Download Statistics" as UC16
+  usecase "View View Statistics" as UC17
+}
+
+' Define relationships
+Guest --> UC1
+Guest --> UC2
+Guest --> UC3
+Guest --> UC4
+
+User --> UC1
+User --> UC2
+User --> UC5
+User --> UC6
+User --> UC7
+User --> UC10
+User --> UC11
+User --> UC12
+
+UC7 ..> UC8 : include
+UC7 ..> UC9 : include
+
+Admin --|> User
+Admin --> UC13
+Admin --> UC14
+Admin --> UC15
+Admin --> UC16
+Admin --> UC17
+
+UC13 ..> UC8 : include
+UC13 ..> UC9 : include
+
+@enduml
