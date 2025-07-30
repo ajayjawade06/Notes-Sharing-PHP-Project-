@@ -8,7 +8,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // Database connection parameters
-$servername = "localhost:3307";
+$servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "notes_sharing";

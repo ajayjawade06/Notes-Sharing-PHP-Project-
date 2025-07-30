@@ -115,29 +115,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
                 <!-- File Upload Area -->
-                <div>
-                    <label for="note_file" class="block text-sm font-medium text-gray-700 mb-1">File</label>
-                    <div class="file-drop-area border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 transition-colors duration-300">
-                        <div class="file-drop-icon mb-4">
-                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400"></i>
-                        </div>
-                        <div class="file-msg mb-2 text-gray-600">Drag & drop file or click to browse</div>
-                        <div class="selected-file text-sm text-blue-600 hidden"></div>
-                        <input type="file" class="file-input absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="note_file" name="note_file" required>
-                    </div>
-                    
-                    <!-- File Information -->
-                    <div class="mt-2 text-xs text-gray-500 space-y-1">
-                        <div class="flex items-center">
-                            <i class="fas fa-info-circle mr-1 text-blue-500"></i>
-                            <span>Allowed file types: PDF, DOC, DOCX, PPT, PPTX, TXT, ZIP, RAR</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-weight-hanging mr-1 text-blue-500"></i>
-                            <span>Maximum file size: 10MB</span>
-                        </div>
-                    </div>
-                </div>
+<div>
+    <label for="note_file" class="block text-sm font-medium text-gray-700 mb-1">File</label>
+    <div class="file-drop-area relative border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 transition-colors duration-300">
+        <div class="file-drop-icon mb-4">
+            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400"></i>
+        </div>
+        <div class="file-msg mb-2 text-gray-600">Drag & drop file or click to browse</div>
+        <div class="selected-file text-sm text-blue-600 hidden"></div>
+
+        <!-- This input is now directly inside the relative container -->
+        <input type="file" id="note_file" name="note_file"
+            class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer" required />
+    </div>
+
+    <!-- File Information -->
+    <div class="mt-2 text-xs text-gray-500 space-y-1">
+        <div class="flex items-center">
+            <i class="fas fa-info-circle mr-1 text-blue-500"></i>
+            <span>Allowed file types: PDF, DOC, DOCX, PPT, PPTX, TXT, ZIP, RAR</span>
+        </div>
+        <div class="flex items-center">
+            <i class="fas fa-weight-hanging mr-1 text-blue-500"></i>
+            <span>Maximum file size: 10MB</span>
+        </div>
+    </div>
+</div>
+
                 
                 <!-- Submit Button -->
                 <div class="pt-4">
